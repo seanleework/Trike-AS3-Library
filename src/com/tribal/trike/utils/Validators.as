@@ -1,17 +1,10 @@
-/**
- * Validator class.
- * 
- * @author: Gerald Yeo
- * @version: 0.1
- * @date: Jul 1, 2011
- */
 package com.tribal.trike.utils {
 
 	final public class Validators {
 		/**
 		 * The <code>isEmailValid</code> method validates the email format.
 		 * 
-		 * @param email String email to validate.
+		 * @param email email to validate.
 		 * 
 		 * @return A value of <code>true</code> for valid;
 		 * <code>false</code> if not.
@@ -25,7 +18,7 @@ package com.tribal.trike.utils {
 		/**
 		 * The <code>isNRICValid</code> method validates the NRIC format.
 		 * 
-		 * @param nric String NRIC to validate
+		 * @param nric NRIC to validate
 		 * 
 		 * @return A value of <code>true</code> for valid;
 		 * <code>false</code> if not.
@@ -71,6 +64,50 @@ package com.tribal.trike.utils {
 			}
 
 			return (omega == checksum);
+		}
+
+
+		/**
+		 * The <code>isLeapYear</code> method checks if year is leap year.
+		 * 
+		 * @param year year to validate
+		 * 
+		 * @return A value of <code>true</code> for valid;
+		 * <code>false</code> if not.
+		 */
+		static public function isLeapYear(year : int) : Boolean {
+			return (year % 4 != 0 ? false : (year % 100 != 0 ? true : (year % 1000 != 0 ? false : true)));
+		}
+
+
+		/**
+		 * The <code>isDateValid</code> method checks if year is valid.
+		 * 
+		 * @param date date to validate
+		 * @param format date format to follow
+		 * 
+		 * @return A value of <code>true</code> for valid;
+		 * <code>false</code> if not.
+		 */
+		static public function isDateValid(date : String, format : String = "dd/mm/yyyy") : Boolean {
+			var days : Array = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+			var decisionTree : Object = {'m/d/y':{'re':new RegExp(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2}|\d{4})$/), 'month':1, 'day':2, 'year':3}, 'mm/dd/yy':{'re':new RegExp(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2})$/), 'month':1, 'day':2, 'year':3}, 'mm/dd/yyyy':{'re':new RegExp(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})$/), 'month':1, 'day':2, 'year':3}, 'y/m/d':{'re':new RegExp(/^(\d{2}|\d{4})[.\/-](\d{1,2})[.\/-](\d{1,2})$/), 'month':2, 'day':3, 'year':1}, 'yy/mm/dd':{'re':new RegExp(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{1,2})$/), 'month':2, 'day':3, 'year':1}, 'yyyy/mm/dd':{'re':new RegExp(/^(\d{4})[.\/-](\d{1,2})[.\/-](\d{1,2})$/), 'month':2, 'day':3, 'year':1}, 'd/m/y':{'re':new RegExp(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2}|\d{4})$/), 'month':2, 'day':1, 'year':3}, 'dd/mm/yy':{'re':new RegExp(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{1,2})$/), 'month':2, 'day':1, 'year':3}, 'dd/mm/yyyy':{'re':new RegExp(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})$/), 'month':2, 'day':1, 'year':3}};
+			var test : Object = decisionTree[format];
+			var year : int, month : int, day : int, date_parts : Array;
+			var valid : Boolean = false;
+
+			if (test) {
+				date_parts = date.match(test.re);
+				if (date_parts) {
+					year = date_parts[test.year];
+					month = date_parts[test.month];
+					day = date_parts[test.day];
+					test = (month == 2 && isLeapYear(year) && 29 || days[month] || 0);
+					valid = 1 <= day && day <= test;
+				}
+			}
+
+			return valid;
 		}
 	}
 }

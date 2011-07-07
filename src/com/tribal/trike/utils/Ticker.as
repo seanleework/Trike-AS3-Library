@@ -1,10 +1,3 @@
-/**
- * Singleton enterframe keeper.
- * 
- * @author: Gerald Yeo
- * @version: 0.1
- * @date: Jul 1, 2011
- */
 package com.tribal.trike.utils {
 	import flash.display.Shape;
 	import flash.events.Event;
@@ -52,26 +45,41 @@ package com.tribal.trike.utils {
 		// ------------------------------------------------------------
 		// IEVENTDISPATCHER
 		// ------------------------------------------------------------
+		/**
+		 * @copy flash.events.EventDispatcher#addEventListener()
+		 */
 		public function addEventListener(type : String, listener : Function, useCapture : Boolean = false, priority : int = 0, useWeakReference : Boolean = false) : void {
 			_dispatchr.addEventListener(type, listener, useCapture, priority, useWeakReference);
 		}
 
 
+		/**
+		 * @copy flash.events.EventDispatcher#removeEventListener()
+		 */
 		public function removeEventListener(type : String, listener : Function, useCapture : Boolean = false) : void {
 			_dispatchr.removeEventListener(type, listener, useCapture);
 		}
 
 
+		/**
+		 * @copy flash.events.EventDispatcher#dispatchEvent()
+		 */
 		public function dispatchEvent(event : Event) : Boolean {
 			return _dispatchr.dispatchEvent(event);
 		}
 
 
+		/**
+		 * @copy flash.events.EventDispatcher#hasEventListener()
+		 */
 		public function hasEventListener(type : String) : Boolean {
 			return _dispatchr.hasEventListener(type);
 		}
 
 
+		/**
+		 * @copy flash.events.EventDispatcher#willTrigger()
+		 */
 		public function willTrigger(type : String) : Boolean {
 			return _dispatchr.willTrigger(type);
 		}
